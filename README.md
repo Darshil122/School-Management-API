@@ -1,26 +1,16 @@
 # School Management API
 
-A RESTful API built using **Node.js, Express, and MySQL** to manage school data.
-This system allows users to **add schools** and **retrieve a list of schools sorted by proximity** to a given location.
+A simple REST API built with **Node.js**, **Express**, and **MySQL** to manage school data and fetch schools based on location (latitude & longitude).
 
 ---
 
 ## Features
 
 * Add new schools
-* Fetch schools sorted by distance (nearest first)
-* Uses latitude & longitude for distance calculation
-* Auto-reload with Nodemon
-
----
-
-## Tech Stack
-
-* Node.js
-* Express.js
-* MySQL (`mysql2`)
-* dotenv
-* CORS
+* Get list of schools
+* Sort schools by distance (using latitude & longitude)
+* MySQL database integration
+* Deployed backend support (Render + Railway)
 
 ---
 
@@ -28,62 +18,54 @@ This system allows users to **add schools** and **retrieve a list of schools sor
 
 ```
 SCHOOL-MANAGEMENT-API/
-│
-├── api/                # Controllers / logic
-├── config/             # Database configuration
-├── routes/             # API routes
-├── createTable.js      # Script to create DB table
-├── server.js           # Entry point
-├── .env                # Environment variables
-├── package.json
-└── README.md
+│── api/                 # API logic (controllers)
+│── config/              # Database configuration
+│── routes/              # API routes
+│── .env                 # Environment variables
+│── createTable.js       # Table creation script
+│── server.js            # Main server file
+│── package.json
 ```
 
 ---
 
-## Setup Instructions
+## Installation
 
-### Clone the repository
+### 1. Clone the repository
 
 ```
 git clone https://github.com/Darshil122/School-Management-API
 cd SCHOOL-MANAGEMENT-API
 ```
 
----
-
-### Install dependencies
+### 2. Install dependencies
 
 ```
 npm install
 ```
 
----
+### 3. Setup environment variables
 
-### Setup environment variables
-
-Create a `.env` file in root:
+Create a `.env` file and add:
 
 ```
-DB_HOST=your_host
-DB_USER=your_username
-DB_PASS=your_password
-DB_NAME=your_database_name
+DATABASE_URL=your_mysql_public_url
 ```
 
 ---
 
-### Create database table
+## Database Setup
 
-Run once:
+If using Railway MySQL:
 
-```
-node createTable.js
-```
+* Copy `MYSQL_PUBLIC_URL`
+* Paste into `.env` as `DATABASE_URL`
 
 ---
 
-### Start server
+##  Run Project
+
+### Development (with nodemon)
 
 ```
 npm start
@@ -93,68 +75,74 @@ npm start
 
 ## API Endpoints
 
----
-
 ### Add School
 
-* **Endpoint:** `/api/school/addSchool`
-* **Method:** `POST`
-* **Body:**
+**POST** `/api/school/addSchool`
+
+#### Request Body:
 
 ```json
 {
-  "name": "D.A.V. International School",
-  "address": "Makarba, Ahmedabad, Gujarat 380051",
-  "latitude": 22.9973,
-  "longitude": 72.5003
+  "name": "ABC School",
+  "address": "City Area",
+  "latitude": 22.9,
+  "longitude": 72.5
 }
 ```
 
 ---
 
-### List Schools (Sorted by Distance)
+### Get Schools (sorted by distance)
 
-* **Endpoint:** `/api/school/listSchools`
+**GET** `/api/school/listSchools?latitude=22.9&longitude=72.5`
 
-* **Method:** `GET`
+#### Response:
 
-* **Query Params:**
-
-```
-latitude=22.9973
-longitude=72.5003
-```
-
-* **Example:**
-
-```
-http://localhost:3000/api/school/listSchools?latitude=23.7&longitude=74.5
+```json
+[
+  {
+    "id": 1,
+    "name": "School Name",
+    "address": "Address",
+    "latitude": 22.9,
+    "longitude": 72.5,
+    "distance": 10.5
+  }
+]
 ```
 
 ---
 
-## Distance Calculation
+## Deployment
 
-The API uses the **Haversine formula** to calculate the distance between user location and schools.
+### Backend:
 
----
+* Deploy using Render
 
-## Future Improvements
+### Database:
 
-* Authentication (JWT)
-* Pagination
-* Input validation (Joi)
-* Deployment (Render / Railway)
-* Frontend with map visualization
+* Use Railway MySQL
+* Use `MYSQL_PUBLIC_URL` for connection
 
 ---
 
-## License
 
-This project is licensed under the MIT License.
+## Tech Stack
+
+* Node.js
+* Express.js
+* MySQL (mysql2)
+* dotenv
+* nodemon
 
 ---
 
 ## Author
 
-Developed as part of a Node.js practical project.
+Darshil Dabhi
+
+---
+
+## License
+
+MIT License
